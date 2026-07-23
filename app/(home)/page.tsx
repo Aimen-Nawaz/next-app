@@ -1,8 +1,10 @@
   import Hero from "./_components/Hero";
-  import Cakes from "../cakes/cakesname";
-  import Cookies from "../cookies/cookies";
+  import Cakes from "../cakes/page";
+  import Cookies from "../cookies/page";
   import Bread from "../bread/bread";
  import AboutPage from "../about/about";
+import HowToOrder from "../how-to-order/page";
+import ContactPage from "../contact/page";
 
 
 export default function Home() {
@@ -13,21 +15,25 @@ export default function Home() {
       </section>
 
       <section id="cakes">
-        <Cakes />
+    <Cakes home />
       </section>
 
       <section id="cookies">
-        <Cookies />
+        <Cookies home />
       </section>
 
       <section id="bread">
-        <Bread />
+        <Bread  home />
       </section>
 
       <section id="about">
         <AboutPage />
       </section>
-
+  
+  <section id="contact">
+        <HowToOrder/>
+         <ContactPage/>
+      </section>
    
     </>
   );

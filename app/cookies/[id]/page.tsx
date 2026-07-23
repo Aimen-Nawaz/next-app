@@ -1,26 +1,68 @@
 import Image from "next/image";
 import { cookies } from "@/lib/data/cookies";
 import CartButton from "@/components/common/CartButton";
+import axios from "axios";
 
-export default async function CookieDetail({
-    params,
+import { useEffect, useState } from "react";
+import Loading from "@/components/common/Loading";
+import ItemNotFound from "@/components/common/ItemNotFound";
+
+type Product = {
+  id: string;
+  name: string;
+  price: number;
+  excerpt: string;
+  description: string;
+  rating: number;
+  category: string;
+  flavours: string[];
+  sizes: string[];
+  image: string;
+};
+export default function CookieDetail({
+  params,
 }: {
-    params: Promise<{ id: string }>;
+  params: Promise<{ id: string }>;
 }) {
-    const { id } = await params;
+  const [cookie, setCookie] = useState<Product | null>(null);
 
-    const cookie = cookies.find(
-        (item) => item.id === Number(id)
-    );
+  const [loading, setLoading] = useState(true);
 
-    if (!cookie) {
-        return (
-            <h1 className="text-center text-3xl font-bold">
-                Cookie Not Found
-            </h1>
+  useEffect(() => {
+    const fetchCookie = async () => {
+      try {
+        const { id } = await params;
+
+        const response = await axios.get<{ data: Product }>(
+          `http://localhost:8000/products/${id}`
         );
-    }
 
+        setCookie(response.data.data || null);
+      } catch (error) {
+        console.error("Error fetching cookie:", error);
+        setCookie(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCookie();
+  }, [params]);
+
+
+  if (loading) {
+    return <Loading />;
+  }
+
+
+  if (!cookie) {
+    return (
+      <ItemNotFound
+        title="Cookie Not Found"
+        description="Sorry, we couldn't find the cookie you're looking for."
+      />
+    );
+  }
     return (
         <main className="min-h-screen bg-[#FFF9F6] py-20">
 
@@ -47,11 +89,11 @@ export default async function CookieDetail({
                             {cookie.category}
                         </p>
 
-                        <h1 className="mt-3 text-5xl font-bold text-[#2D221C]">
+                        <h1 className="mt-3 text-5xl font-bold text-foreground">
                             {cookie.name}
                         </h1>
 
-                        <p className="mt-5 text-gray-600">
+                        <p className="mt-5 text-muted-foreground">
                             {cookie.description}
                         </p>
 

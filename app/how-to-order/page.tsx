@@ -34,15 +34,15 @@ const steps = [
 
 export default function HowToOrder() {
   return (
-    <section className="bg-white py-20">
+    <section className="bg-background py-20">
       <div className="mx-auto max-w-7xl px-6">
 
         <div className="text-center">
-          <h2 className="text-4xl font-bold text-[#2D221C]">
+          <h2 className="text-4xl font-bold text-primary">
             How to Order
           </h2>
 
-          <p className="mt-4 text-gray-600">
+          <p className="mt-4 text-muted-foreground">
             Ordering your favorite treats is quick and easy.
           </p>
         </div>
@@ -57,15 +57,15 @@ export default function HowToOrder() {
                 key={step.title}
                 className="rounded-3xl border bg-[#FFF9F6] p-8 text-center shadow-sm transition hover:-translate-y-2 hover:shadow-lg"
               >
-                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#A65A2E] text-white">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full ">
                   <Icon size={30} />
                 </div>
 
-                <h3 className="mt-6 text-xl font-semibold text-[#2D221C]">
+                <h3 className="mt-6 text-xl font-semibold ">
                   {step.title}
                 </h3>
 
-                <p className="mt-3 text-gray-600">
+                <p className="mt-3">
                   {step.description}
                 </p>
               </div>

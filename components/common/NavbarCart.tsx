@@ -34,7 +34,7 @@ export default function NavbarCart() {
           variant="ghost"
           className="relative"
         >
-          <ShoppingCart className="h-6 w-6" />
+          <ShoppingCart className="size-7" />
 
           {cartCount > 0 && (
             <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-red-500 p-0 text-xs text-white flex items-center justify-center">

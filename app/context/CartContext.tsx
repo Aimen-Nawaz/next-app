@@ -9,7 +9,7 @@ import {
 } from "react";
 
 type Product = {
-  id: number;
+  id: string;
   name: string;
   price: number;
   image: string;
@@ -21,8 +21,8 @@ type CartContextType = {
   totalPrice: number;
   totalItems: number;
   addToCart: (product: Omit<Product, "quantity">) => void;
-  removeFromCart: (productId: number) => void;
-  updateQuantity: (productId: number, quantity: number) => void;
+  removeFromCart: (productId: string) => void;
+  updateQuantity: (productId: string, quantity: number) => void;
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -83,11 +83,11 @@ export default function CartProvider({
     }
   };
 
-  const removeFromCart = (productId: number) => {
+  const removeFromCart = (productId: string) => {
     setCartItems(cartItems.filter((item) => item.id !== productId));
   };
 
- const updateQuantity = (productId: number, quantity: number) => {
+ const updateQuantity = (productId: string, quantity: number) => {
   if (quantity <= 0) {
     removeFromCart(productId);
     return;

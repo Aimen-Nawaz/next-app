@@ -6,7 +6,7 @@ export type Cake = {
   excerpt: string;
   flavours: string[];
   sizes: string[];
-  ingredients: string[];
+
   description: string;
   rating: number;
   category: string;
@@ -38,15 +38,7 @@ export const cakes: Cake[] = [
       "3 KG",
     ],
 
-    ingredients: [
-      "Premium Flour",
-      "Cocoa Powder",
-      "Fresh Cream",
-      "Chocolate",
-      "Eggs",
-      "Sugar",
-      "Butter",
-    ],
+    
   },
 
 
@@ -74,14 +66,7 @@ export const cakes: Cake[] = [
       "3 KG",
     ],
 
-    ingredients: [
-      "Vanilla Sponge",
-      "Fresh Strawberries",
-      "Whipped Cream",
-      "Milk",
-      "Sugar",
-      "Butter",
-    ],
+    
   },
 
 
@@ -109,15 +94,6 @@ export const cakes: Cake[] = [
       "3 KG",
     ],
 
-    ingredients: [
-      "Red Velvet Sponge",
-      "Cream Cheese",
-      "Flour",
-      "Cocoa",
-      "Eggs",
-      "Sugar",
-      "Butter",
-    ],
   },
 
 
@@ -144,14 +120,7 @@ export const cakes: Cake[] = [
       "2 KG",
     ],
 
-    ingredients: [
-      "Vanilla Extract",
-      "Flour",
-      "Milk",
-      "Eggs",
-      "Sugar",
-      "Cream",
-    ],
+   
   },
 
 
@@ -179,14 +148,7 @@ export const cakes: Cake[] = [
       "3 KG",
     ],
 
-    ingredients: [
-      "Chocolate Sponge",
-      "Fresh Cream",
-      "Cherries",
-      "Chocolate Flakes",
-      "Sugar",
-      "Eggs",
-    ],
+  
   },
 
 
@@ -214,14 +176,6 @@ export const cakes: Cake[] = [
       "2 KG",
     ],
 
-    ingredients: [
-      "Cream Cheese",
-      "Biscuit Base",
-      "Fresh Cream",
-      "Sugar",
-      "Milk",
-      "Fruit Topping",
-    ],
   },
 
 
@@ -248,13 +202,5 @@ export const cakes: Cake[] = [
       "2 KG",
     ],
 
-    ingredients: [
-      "Blueberries",
-      "Vanilla Sponge",
-      "Fresh Cream",
-      "Flour",
-      "Milk",
-      "Sugar",
-    ],
   },
 ];

@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { Bookmark, ShoppingCart, Moon, Sun, User, MapPin, Search, } from "lucide-react";
+import { Bookmark, MapPin, } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useWishlist } from "@/app/context/WishlistContext";
@@ -11,10 +11,16 @@ import { useCart } from "@/app/context/CartContext";
 import NavbarCart from "@/components/common/NavbarCart";
 
 
+
 export default function Navbar() {
   const { cartItems, totalPrice } = useCart();
   const { totalWishlistItems } = useWishlist();
   const pathname = usePathname();
+ 
+  if (pathname === "/login" || pathname === "/register") {
+    return null;
+  }
+  
   const [activeSection, setActiveSection] = useState("hero");
   const [darkMode, setDarkMode] = useState(false);
 
@@ -109,7 +115,7 @@ export default function Navbar() {
                 variant="ghost"
                 className="relative"
               >
-                <Bookmark className="h-6 w-6" />
+                <Bookmark className="size-7" />
 
                 {totalWishlistItems > 0 && (
                   <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-red-500 p-0 text-xs text-white flex items-center justify-center">
@@ -136,12 +142,12 @@ export default function Navbar() {
                 key={link.id}
                 href={link.href}
                 className={`rounded-full px-6 py-2 transition ${pathname === "/"
-                    ? activeSection === link.id
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-secondary hover:bg-primary hover:text-primary-foreground"
-                    : pathname === link.path
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-secondary hover:bg-primary hover:text-primary-foreground"
+                  ? activeSection === link.id
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-secondary hover:bg-primary hover:text-primary-foreground"
+                  : pathname === link.path
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-secondary hover:bg-primary hover:text-primary-foreground"
                   }`}
               >
                 {link.name}

@@ -1,28 +1,64 @@
 import Image from "next/image";
-import { cakes } from "@/lib/data/cakes";
+import axios from "axios";
 import CartButton from "@/components/common/CartButton";
+import ItemNotFound from "@/components/common/ItemNotFound";
+import { useEffect, useState } from "react";
+import Loading from "@/components/common/Loading";
 
-export default async function CakeDetail({
+type Product = {
+  id: string;
+  name: string;
+  price: number;
+  excerpt: string;
+  description: string;
+  rating: number;
+  category: string;
+  flavours: string[];
+  sizes: string[];
+  image: string;
+};
+export default function CakeDetail({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { id } = await params;
+  const [cake, setCake] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const cake = cakes.find((item) => item.id === Number(id));
+  useEffect(() => {
+    const fetchCake = async () => {
+      try {
+        const { id } = await params;
 
-  if (!cake) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <h1 className="text-3xl font-bold">
-          Cake Not Found
-        </h1>
-      </div>
-    );
-  }
+        const response = await axios.get<{ data: Product }>(
+          `http://localhost:8000/products/${id}`
+        );
+
+        setCake(response.data.data || null);
+      } catch (error) {
+        console.error("Error fetching cake:", error);
+        setCake(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCake();
+  }, [params]);
+  if (loading) {
+  return <Loading />;
+}
+    if (!cake) {
+      return (
+        <ItemNotFound
+          title="Cake Not Found"
+          description="Sorry, we couldn't find the cake you're looking for."
+        />
+      );
+    }
 
   return (
-    <main className="min-h-screen bg-[#FFF9F6] py-20">
+    <main className="min-h-screen  py-20">
       <div className="mx-auto max-w-6xl px-6">
 
         <div className="grid gap-12 md:grid-cols-2">
@@ -40,15 +76,15 @@ export default async function CakeDetail({
           {/* Details */}
           <div>
 
-            <p className="text-sm font-semibold uppercase tracking-widest text-[#A65A2E]">
+            <p className="text-sm font-semibold uppercase tracking-widest ">
               {cake.category}
             </p>
 
-            <h1 className="mt-3 text-5xl font-bold text-[#2D221C]">
+            <h1 className="mt-3 text-5xl font-bold text-foreground">
               {cake.name}
             </h1>
 
-            <p className="mt-5 text-gray-600">
+            <p className="mt-5 text-muted-foreground">
               {cake.description}
             </p>
 
@@ -100,7 +136,8 @@ export default async function CakeDetail({
 
 
             {/* Add to Cart */}
-            <div className="mt-3">
+
+            <div className="mt-auto p-5 pt-0">
               <CartButton
                 product={{
                   id: cake.id,

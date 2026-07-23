@@ -1,9 +1,10 @@
 "use client";
 
+import { spec } from "node:test/reporters";
 import { createContext, useContext, useState, ReactNode } from "react";
 
 export interface WishlistItem {
-  id: number;
+  id: string;
   name: string;
   price: number;
   image: string;
@@ -13,8 +14,8 @@ interface WishlistContextType {
   wishlistItems: WishlistItem[];
   totalWishlistItems: number;
   addToWishlist: (item: WishlistItem) => void;
-  removeFromWishlist: (id: number) => void;
-  isInWishlist: (id: number) => boolean;
+  removeFromWishlist: (id: string) => void;
+  isInWishlist: (id: string) => boolean;
 }
 
 const WishlistContext = createContext<WishlistContextType | undefined>(undefined);
@@ -34,11 +35,11 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const removeFromWishlist = (id: number) => {
+  const removeFromWishlist = (id: string) => {
     setWishlistItems((prev) => prev.filter((item) => item.id !== id));
   };
 
-  const isInWishlist = (id: number) =>
+  const isInWishlist = (id: string) =>
     wishlistItems.some((item) => item.id === id);
 
   return (

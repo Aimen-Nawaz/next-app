@@ -36,15 +36,15 @@ const categories = [
 
 export default function CakeCategories() {
   return (
-    <main className="min-h-screen bg-[#FFF9F6] py-20">
+    <main className="min-h-screen bg-background py-20">
       <div className="mx-auto max-w-7xl px-6">
 
         <div className="text-center">
-          <h1 className="text-5xl font-bold text-[#2D221C]">
+          <h1 className="text-5xl font-bold text-primary">
             Explore Our Cake Collection
           </h1>
 
-          <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
+          <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
             Discover handcrafted cakes for birthdays, weddings, anniversaries,
             and every special occasion.
           </p>
@@ -55,9 +55,9 @@ export default function CakeCategories() {
           {categories.map((category) => (
             <div
               key={category.id}
-              className="overflow-hidden rounded-3xl bg-white shadow-lg transition hover:-translate-y-2 hover:shadow-xl"
+              className="overflow-hidden rounded-3xl bg-background shadow-lg transition hover:-translate-y-2 hover:shadow-xl"
             >
-              <div className="relative h-64">
+              <div className="relative h-72">
                 <Image
                   src={category.image}
                   alt={category.title}
@@ -67,20 +67,14 @@ export default function CakeCategories() {
               </div>
 
               <div className="p-6">
-                <h2 className="text-2xl font-bold text-[#2D221C]">
+                <h2 className="text-2xl font-bold text-primary">
                   {category.title}
                 </h2>
 
-                <p className="mt-3 text-gray-600">
+                <p className="mt-3 text-muted-foreground">
                   {category.description}
                 </p>
 
-                <Link
-                  href={category.href}
-                  className="mt-6 inline-block rounded-xl bg-[#A65A2E] px-6 py-3 text-white transition hover:bg-[#8C4724]"
-                >
-                  Explore
-                </Link>
               </div>
             </div>
           ))}

@@ -5,7 +5,7 @@ import { ShoppingCart } from "lucide-react";
 import { useCart } from "@/app/context/CartContext";
 
 type Product = {
-  id: number;
+  id: string;
   name: string;
   price: number;
   image: string;
@@ -19,11 +19,11 @@ export default function CartButton({ product }: Props) {
   const { addToCart } = useCart();
 
   return (
-    <Button
-      className="mt-4 w-full"
+  <Button
       onClick={() => addToCart(product)}
+      className="w-full h-11 rounded-xl"
     >
-      <ShoppingCart className="mr-2 h-4 w-4" />
+      <ShoppingCart className="mr-2 h-5 w-5" />
       Add to Cart
     </Button>
   );

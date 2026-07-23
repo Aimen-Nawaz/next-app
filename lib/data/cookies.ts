@@ -1,5 +1,5 @@
 export type Cookie = {
-  id: number;
+  id: string;
   name: string;
   price: number;
   image: string;
@@ -15,7 +15,7 @@ export type Cookie = {
 export const cookies: Cookie[] = [
 
   {
-    id: 1,
+    id: "abc",
     name: "Chocolate Chip Cookies",
     price: 350,
     image: "/images/cookies/chocolate-chip.jpg",
@@ -42,7 +42,7 @@ export const cookies: Cookie[] = [
 
 
   {
-    id: 2,
+    id: "abcd",
     name: "Butter Cookies",
     price: 300,
     image: "/images/cookies/butter-cookies.jpg",
@@ -69,7 +69,7 @@ export const cookies: Cookie[] = [
 
 
   {
-    id: 3,
+    id: "abcde",
     name: "Oatmeal Cookies",
     price: 320,
     image: "/images/cookies/oatmeal.jpg",
@@ -94,7 +94,7 @@ export const cookies: Cookie[] = [
 
 
   {
-    id: 4,
+    id: "abcdef",
     name: "Almond Cookies",
     price: 400,
     image: "/images/cookies/almond-cookies.jpg",

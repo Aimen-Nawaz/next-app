@@ -1,8 +1,18 @@
+"use client";
 import Link from "next/link";
 import { Phone, Mail, MapPin } from "lucide-react";
 import { FaFacebookF, FaInstagram } from "react-icons/fa";
 
+
+import { usePathname } from "next/navigation";
+
 export default function Footer() {
+  const pathname = usePathname();
+
+  if (pathname === "/login" || pathname === "/register") {
+    return null;
+  }
+
     return (
         <footer className="border-t border-border bg-background text-foreground">
             <div className="mx-auto max-w-7xl px-6 py-14">
@@ -11,10 +21,13 @@ export default function Footer() {
 
                     {/* Logo & About */}
                     <div>
-                        <h2 className="text-2xl font-bold text-primary">
-                            Cake & Bake
-                        </h2>
 
+
+                        <Link href="/" className="inline-block">
+                            <h2 className="text-2xl font-bold text-primary hover:text-primary/80 transition-colors">
+                                Cake & Bake
+                            </h2>
+                        </Link>
                         <p className="mt-4 text-sm leading-7 text-muted-foreground">
                             Freshly baked cakes, cookies and artisan bread made with
                             premium ingredients. We bake every day with love and care.
@@ -28,12 +41,6 @@ export default function Footer() {
                         </h3>
 
                         <ul className="space-y-3 text-sm">
-
-                            <li>
-                                <Link href="/" className="hover:text-primary transition-colors">
-                                    Home
-                                </Link>
-                            </li>
 
                             <li>
                                 <Link href="/about" className="hover:text-primary transition-colors">
@@ -54,24 +61,40 @@ export default function Footer() {
                             </li>
                             <li>
                                 <Link
-                                    href="/contact#faq"
-                                   className="hover:text-primary transition-colors"
+                                    href="/faq"
+                                    className="hover:text-primary transition-colors"
                                 >
                                     FAQ
                                 </Link>
                             </li>
-
                             <li>
-                                <Link href="/privacy-policy" className="hover:text-primary transition-colors">
-                                    Privacy Policy
+                                <Link
+                                    href="/how-to-order"
+                                    className="hover:text-primary transition-colors"
+                                >
+                                    How to Order
                                 </Link>
                             </li>
 
-                            <li>
-                                <Link href="/terms" className="hover:text-primary transition-colors">
-                                    Terms & Conditions
-                                </Link>
-                            </li>
+                            <ul className="space-y-2">
+                                <li>
+                                    <Link
+                                        href="/privacy-policy"
+                                        className="hover:text-primary transition-colors"
+                                    >
+                                        Privacy Policy
+                                    </Link>
+                                </li>
+
+                                <li>
+                                    <Link
+                                        href="/terms-conditions"
+                                        className="hover:text-primary transition-colors"
+                                    >
+                                        Terms & Conditions
+                                    </Link>
+                                </li>
+                            </ul>
 
                         </ul>
                     </div>

@@ -1,5 +1,5 @@
 export type Bread = {
-  id: number;
+  id: string;
   name: string;
   price: number;
   image: string;
@@ -16,7 +16,7 @@ export type Bread = {
 export const breads: Bread[] = [
 
   {
-    id: 1,
+    id: "1",
     name: "Garlic Bread",
     price: 350,
     image: "/images/bread/garlic-bread.jpg",
@@ -43,11 +43,11 @@ export const breads: Bread[] = [
 
 
   {
-    id: 2,
+    id: "2",
     name: "French Baguette",
     price: 400,
     image: "/images/bread/french-baguette.jpg",
-    excerpt: "Traditional crispy French baguette.",
+    excerpt: "Traditional crispy French baguette crust and soft inside..",
     description:
       "Authentic French style baguette with a crispy golden crust and soft inside.",
     rating: 5,
@@ -70,11 +70,11 @@ export const breads: Bread[] = [
 
 
   {
-    id: 3,
+    id: "3",
     name: "Whole Wheat Bread",
     price: 300,
     image: "/images/bread/whole-wheat.jpg",
-    excerpt: "Healthy whole wheat bread.",
+    excerpt: "Healthy whole wheat bread for a healthy lifestyle.",
     description:
       "Nutritious whole wheat bread made with natural ingredients for a healthy lifestyle.",
     rating: 4,
@@ -97,7 +97,7 @@ export const breads: Bread[] = [
 
 
   {
-    id: 4,
+    id: "4",
     name: "Brioche Bread",
     price: 450,
     image: "/images/bread/brioche.jpg",

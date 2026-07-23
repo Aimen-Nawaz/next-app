@@ -1,21 +1,66 @@
 import Image from "next/image";
-import { breads } from "@/lib/data/bread";
+import axios from "axios";
 import CartButton from "@/components/common/CartButton";
+import { useEffect, useState } from "react";
+import ItemNotFound from "@/components/common/ItemNotFound";
+import Loading from "@/components/common/Loading";
 
-export default async function BreadDetail({
+
+type Product = {
+
+  id: string;
+  name: string;
+  price: number;
+  excerpt: string;
+  description: string;
+  rating: number;
+  category: string;
+  flavours: string[];
+  sizes: string[];
+  image: string;
+};
+
+export default function BreadDetail({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { id } = await params;
+  const [bread, setBread] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const bread = breads.find((item) => item.id === Number(id));
+  useEffect(() => {
+    const fetchBread = async () => {
+      try {
+        const { id } = await params;
 
+        const response = await axios.get<{ data: Product }>(
+          `http://localhost:8000/products/${id}`
+        );
+
+        setBread(response.data.data || null);
+      } catch (error) {
+        console.error("Error fetching bread:", error);
+        setBread(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBread();
+  }, [params]);
+
+  // Loading
+  if (loading) {
+    return <Loading />;
+  }
+
+  // Bread Not Found
   if (!bread) {
     return (
-      <h1 className="text-center text-3xl font-bold">
-        Bread Not Found
-      </h1>
+      <ItemNotFound
+        title="Bread Not Found"
+        description="Sorry, we couldn't find the bread you're looking for."
+      />
     );
   }
 
@@ -42,11 +87,11 @@ export default async function BreadDetail({
               {bread.category}
             </p>
 
-            <h1 className="mt-3 text-5xl font-bold text-[#2D221C]">
+            <h1 className="mt-3 text-5xl font-bold text-foreground">
               {bread.name}
             </h1>
 
-            <p className="mt-5 text-gray-600">
+            <p className="mt-5 text-muted-foreground">
               {bread.description}
             </p>
 

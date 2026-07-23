@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useCart } from "@/app/context/CartContext";
 
 type CartItem = {
-  id: number;
+  id: string;
   name: string;
   image: string;
   price: number;
