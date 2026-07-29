@@ -1,8 +1,8 @@
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
-import CartProvider from "@/app/context/CartContext";
-import { WishlistProvider } from "@/app/context/WishlistContext";
 import Footer from "@/components/layout/Footer";
+import Providers from "@/app/Providers";
+import FloatingCartBar from "@/components/common/FloatingCartBar";
 
 export default function RootLayout({
   children,
@@ -12,13 +12,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="">
-        <CartProvider>
-          <WishlistProvider>
-            <Navbar />
-            {children}
-          </WishlistProvider>
-        </CartProvider>
-        <Footer />
+        <Providers>
+          <Navbar />
+          {children}
+          <FloatingCartBar />
+          <Footer />
+        </Providers>
+
       </body>
     </html>
   );

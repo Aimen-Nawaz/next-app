@@ -1,96 +1,110 @@
 "use client";
 
 import Image from "next/image";
+import { Heart } from "lucide-react";
+import { useState } from "react";
 
 import CartButton from "@/components/common/CartButton";
-import { Heart } from "lucide-react";
+import ProductDetail from "@/components/products/[id]/ProductDetail";
+
 import { useWishlist } from "@/app/context/WishlistContext";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
-type Product = {
-  id: string;
-  name: string;
-  price: number;
-  excerpt: string;
-  description: string;
-  rating: number;
-  category: string;
-  flavours: string[];
-  sizes: string[];
-  image: string;
-};
+import type { Product } from "@/types/product";
 
 interface ProductCardProps {
   product: Product;
 }
 
-export default function ProductCard({ product}: ProductCardProps) {
+export default function ProductCard({
+  product,
+}: ProductCardProps) {
   const { addToWishlist, isInWishlist } = useWishlist();
 
+  const [open, setOpen] = useState(false);
+
   const liked = isInWishlist(product.id);
-  console.log("==>", product)
+
   return (
-    <div className="overflow-hidden rounded-3xl  bg-white shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-xl">
-      <div className="relative">
+    <>
+      <div className="overflow-hidden rounded-2xl bg-white shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-xl">
+        <div className="relative">
 
-        {/* ❤️ Wishlist button (ADD HERE) */}
-        < Button
-          onClick={() =>
-            addToWishlist({
-              id: product.id,
-              name: product.name,
-              price: product.price,
-              image: product.image,
-            })
-          }
-          className="absolute right-3 top-3 z-10 rounded-lg bg-background/40 p-1 shadow"
-        >
-          <Heart
-            className={`size-6 ${liked ? "fill-destructive text-destructive" : "text-destructive"
+          {/* WISHLIST BUTTON */}
+          <Button
+            type="button"
+            onClick={() =>
+              addToWishlist({
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                image: product.image,
+              })
+            }
+            className="absolute right-2 top-2 z-10 h-8 w-8 rounded-lg bg-background/40 p-1 shadow sm:right-3 sm:top-3 sm:h-9 sm:w-9 md:h-10 md:w-10"
+          >
+            <Heart
+              className={`size-4 sm:size-5 md:size-6 ${
+                liked
+                  ? "fill-destructive text-destructive"
+                  : "text-destructive"
               }`}
-          />
-        </Button>
-        <Link href={`/cakes/${product.id}`}>
+            />
+          </Button>
 
-          <Image
-            src={`/${product.image}`}
-            alt={product.name}
-            width={400}
-            height={300}
-            className="h-72 w-full object-cover"
-            loading="lazy"
-          />
+          {/* PRODUCT IMAGE + DETAILS */}
+          <div
+            onClick={() => setOpen(true)}
+            className="cursor-pointer"
+          >
+            <Image
+              src={
+                product.image.startsWith("/")
+                  ? product.image
+                  : `/${product.image}`
+              }
+              alt={product.name}
+              width={400}
+              height={300}
+              className="h-52 w-full object-cover sm:h-56 md:h-64 lg:h-72"
+              loading="lazy"
+            />
 
-          <div className="p-5">
+            <div className="p-3 sm:p-4 md:p-5">
+              <h3 className="text-base font-semibold text-foreground sm:text-lg md:text-xl">
+                {product.name}
+              </h3>
 
-            <h3 className="text-xl font-semibold text-foreground">
-              {product.name}
-            </h3>
+              <p className="mt-1 text-base font-bold text-primary sm:text-lg">
+                Rs. {product.price}
+              </p>
 
-            <p className="mt-2 text-lg font-bold text-primary">
-              Rs. {product.price}
-            </p>
-
-            <p className="mt-2 text-muted-foreground">
-              {product.excerpt}
-            </p>
-
+              <p className="mt-1 text-xs text-muted-foreground sm:text-sm md:text-base">
+                {product.excerpt}
+              </p>
+            </div>
           </div>
 
-        </Link>
-
-
-        <div className="mt-auto p-5 pt-0">
-          <CartButton
-            product={{
-              id: product.id,
-              name: product.name,
-              price: product.price,
-              image: product.image,
-            }}
-          />
+          {/* ADD TO CART */}
+          <div className="p-3 pt-0 sm:p-4 md:p-5">
+            <CartButton
+              product={{
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                image: product.image,
+              }}
+            />
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* PRODUCT DETAIL DIALOG */}
+      <ProductDetail
+        productId={product.id}
+        category={product.category}
+        open={open}
+        onOpenChange={setOpen}
+      />
+    </>
   );
 }
