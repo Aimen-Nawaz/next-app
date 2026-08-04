@@ -1,5 +1,6 @@
 "use client"
 
+import { useMemo } from 'react'
 import ItemNotFound from '@/components/common/ItemNotFound'
 import ProductCard from '@/components/common/ProductCard'
 
@@ -14,14 +15,16 @@ interface Props {
 
 const ProductList = ({ category, title }: Props) => {
 
+    const queryArgs = useMemo(() => ({
+        query: {
+            category,
+            limit: 4,
+            skip: 0,
+        }
+    }), [category])
+
     const { data: produtsRes, isLoading: loading } = useGetAllProductsByCategoryQuery(
-        {
-            query: {
-                category: category,
-                limit: 4,
-                skip: 0,
-            }
-        },
+        queryArgs,
         {
             skip: !category
         }

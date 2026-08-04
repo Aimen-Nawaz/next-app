@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import Image from "next/image";
 import CartButton from "@/components/common/CartButton";
 
@@ -27,20 +28,22 @@ export default function ProductDetail({
   open,
   onOpenChange,
 }: ProductDetailProps) {
+  const queryArgs = useMemo(
+    () => ({
+      id: productId as UUID,
+      query: {
+        category,
+      },
+    }),
+    [category, productId]
+  );
+
   const {
     data: productRes,
     isLoading: loading,
-  } = useGetProductQuery(
-    {
-      id: productId as UUID,
-      query: {
-        category: category,
-      },
-    },
-    {
-      skip: !(open && productId),
-    }
-  );
+  } = useGetProductQuery(queryArgs, {
+    skip: !(open && productId),
+  });
 
   const product = productRes?.data;
 

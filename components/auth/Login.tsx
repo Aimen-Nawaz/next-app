@@ -8,9 +8,10 @@ import { z } from "zod";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useLoginMutation } from "@/services/auth";
 
 const loginSchema = z.object({
-  email: z.string().email("Enter a valid email"),
+  email: z.email("Enter a Valid email"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
@@ -18,7 +19,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 
 
 export default function LoginForm() {
-
+  const [login, { isLoading, error }] = useLoginMutation();
 
   const { register, handleSubmit, formState: { errors }, } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -29,17 +30,17 @@ export default function LoginForm() {
     try {
       console.log("Sending data:", data);
 
-      const response = await axios.post("/api/auth/login", data);
+      const response = await login(data).unwrap();
 
       console.log("Login response:", response.data);
 
-      alert("Login successful!")
+      alert(response.message)
 
-    } catch (error: any) {
+    } catch {
       console.error(error);
 
       alert(
-        error.response?.data?.message || "Something went wrong"
+        error ?? "Something went wrong"
       );
     }
   };
@@ -93,7 +94,7 @@ export default function LoginForm() {
               </p>)}
             <div className="flex justify-end">
               <Link
-                href="/forgot-password"
+                href="/verify-email"
                 className="text-primary hover:underline text-sm"
               >
                 Forgot Password?
@@ -103,7 +104,7 @@ export default function LoginForm() {
 
 
 
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full" disabled={isLoading}>
             Login
           </Button>
 

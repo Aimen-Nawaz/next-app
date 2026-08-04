@@ -4,10 +4,10 @@ import { UUID } from "crypto";
 
 export const productApi = createApi({
     reducerPath: "product",
-    baseQuery: fetchBaseQuery({ baseUrl: '/api/' }),
+    baseQuery: fetchBaseQuery({ baseUrl: '/api/', credentials:"include" }),
     endpoints: (builder) => ({
         getAllProductsByCategory: builder.query<ProductsResponse, { query: ProductQuery }>({
-            query: ({ query }) => `/products${query ? `?category=${query.category}&limit:${query.limit}&skip=${query.skip}` : ""}`,
+            query: ({ query }) => `/products${query ? `${query.category ? `?category=${query.category}` : '?'}&limit=${query.limit}&skip=${query.skip}` : ""}`,
             keepUnusedDataFor: 5
         }),
         getProduct: builder.query<ProductResponse, { id: UUID; query: ProductQuery }>({

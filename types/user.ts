@@ -10,5 +10,24 @@ export type User = {
 
 export interface UserResponse {
     message: String,
-    data:User[]
+    data: User[]
+}
+
+export type Login = {
+    email: string,
+    password: string
+}
+
+export type VerifyEmail = {
+  email: string;
+};
+export type ResetPassword = {
+  email: string;
+  password: string;
+};
+
+export type Register = {
+    name: string,
+    email: string,
+    password: string
 }

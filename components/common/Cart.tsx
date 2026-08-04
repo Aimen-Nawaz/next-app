@@ -27,7 +27,7 @@ export default function CartItemCard({ item }: Props) {
           alt={item.name}
           width={90}
           height={90}
-          className="h-16 w-16 shrink-0 rounded-lg object-cover sm:h-20 sm:w-20 md:h-[90px] md:w-[90px]"
+          className="h-16 w-16 shrink-0 rounded-lg object-cover sm:h-20 sm:w-20 md:h-22.5 md:w-22.5"
         />
 
         <div className="min-w-0">
