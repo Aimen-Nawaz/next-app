@@ -14,10 +14,13 @@ export type Product = {
 export type ProductsResponse = {
   message: String,
   data: Product[]
+  limit: number,
+  skip: number,
+  total: number
 }
 export type ProductResponse = {
   message: String,
-  data: Product
+  data: Product,
 }
 
 export type CartItem = {

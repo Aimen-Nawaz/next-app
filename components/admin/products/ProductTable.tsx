@@ -15,9 +15,10 @@ import ProductFilters from "./ProductFilters";
 import ProductTableContent from "./ProductTableContent";
 import ProductPagination from "./ProductPagination";
 import ProductDetailModal from "./ProductDetailModal";
-import AddProductDialog from "./AddProductDialog";
-import DeleteProductDialog from "./DeleteProductDialog";
-import EditProductDialog from "./EditProductDialog";
+import AddProductDialog from "./dialogs/AddProductDialog";
+import DeleteProductDialog from "./dialogs/DeleteProductDialog";
+import EditProductDialog from "./dialogs/EditProductDialog";
+import { Product } from "@/types/product";
 
 export default function ProductTable() {
     const [search, setSearch] = useState("");
@@ -26,41 +27,48 @@ export default function ProductTable() {
     const [editOpen, setEditOpen] = useState(false);
     const [deleteOpen, setDeleteOpen] = useState(false);
 
-    const [editId, setEditId] = useState("");
+    const [editProduct, setEditProduct] = useState<Product | null>(null);
     const [deleteId, setDeleteId] = useState("");
     const [selectedId, setSelectedId] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
 
     const router = useRouter();
+    const [pagination, setPagination] = useState({
+        pageIndex: 0,
+        pageSize: 10,
+    });
 
-    const queryArgs = useMemo(
-        () => {
-            if (category !== "all") {
-                return {
-                    query: {
-                        category,
-                        limit: 50,
-                        skip: 0,
-                    },
-                }
-            }
-            else {
-                return {
-                    query: {
-                        limit: 50,
-                        skip: 0,
-                    },
-                }
-            }
-        },
-        [category]
-    );
+    const queryArgs = useMemo(() => {
+        const limit = pagination.pageSize;
+        const skip = pagination.pageIndex * limit;
+
+        if (category !== "all") {
+            return {
+                query: {
+                    category,
+                    limit,
+                    skip,
+                },
+            };
+        }
+
+        return {
+            query: {
+                limit,
+                skip,
+            },
+        };
+    }, [category, pagination.pageIndex, pagination.pageSize]);
 
     const { data, isLoading } = useGetAllProductsByCategoryQuery(queryArgs);
+    const totalProducts = data?.total ?? 0;
+    const pageSize = data?.limit ?? pagination.pageSize;
+    const products = data?.data ?? [];
 
-    const products = data?.data || [];
-    console.log("products", products);
-
+    const pageCount = useMemo(() => {
+        if (!totalProducts || !pageSize) return 1;
+        return Math.max(1, Math.ceil(totalProducts / pageSize));
+    }, [pageSize, totalProducts]);
 
     const [open, setOpen] = useState(false);
 
@@ -87,8 +95,8 @@ export default function ProductTable() {
                         setSelectedCategory(category);
                         setOpen(true);
                     },
-                    (id) => {
-                        setEditId(id);
+                    (product) => {
+                        setEditProduct(product);
                         setEditOpen(true);
                     },
                     (id) => {
@@ -100,11 +108,12 @@ export default function ProductTable() {
         ),
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
-        initialState: {
-            pagination: {
-                pageSize: products.length || 10,
-            },
+        manualPagination: true,
+        pageCount,
+        state: {
+            pagination,
         },
+        onPaginationChange: setPagination,
     });
 
     return (
@@ -137,7 +146,7 @@ export default function ProductTable() {
             <EditProductDialog
                 open={editOpen}
                 onOpenChange={setEditOpen}
-                productId={editId}
+                product={editProduct}
             />
 
             <DeleteProductDialog

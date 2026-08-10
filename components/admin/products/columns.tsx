@@ -6,22 +6,23 @@ import { Star } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Product } from "@/types/product";
+import Image from "next/image";
 
 
 
 export const columns = (
   onView: (id: string, category: string) => void,
-  onEdit: (id: string) => void,
+  onEdit: (product: Product) => void,
   onDelete: (id: string) => void
 ): ColumnDef<Product>[] => [
     {
-      accessorKey: "image",
-      header: "Image",
-    },
-
-    {
-      accessorKey: "name",
       header: "Product",
+      cell: ({ row }) => (
+        <div className="flex items-center gap-2">
+          <Image src={`/${row.original.image}`} alt={row.original.name} width={50} height={50} className="rounded-sm aspect" />
+          <span className="font-medium">{row.original.name}</span>
+        </div>
+      ),
     },
 
     {
@@ -69,7 +70,7 @@ export const columns = (
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => onEdit(row.original.id)}
+           onClick={() => onEdit(row.original)}
           >
             <Pencil className="h-4 w-4" />
           </Button>
