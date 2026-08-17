@@ -10,6 +10,7 @@ import {
 
 import { columns } from "./columns";
 import { useGetAllProductsByCategoryQuery } from "@/services/product";
+import type { UUID } from "node:crypto";
 
 import ProductFilters from "./ProductFilters";
 import ProductTableContent from "./ProductTableContent";
@@ -28,7 +29,7 @@ export default function ProductTable() {
     const [deleteOpen, setDeleteOpen] = useState(false);
 
     const [editProduct, setEditProduct] = useState<Product | null>(null);
-    const [deleteId, setDeleteId] = useState("");
+  const [deleteId, setDeleteId] = useState("");
     const [selectedId, setSelectedId] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
 
@@ -99,8 +100,8 @@ export default function ProductTable() {
                         setEditProduct(product);
                         setEditOpen(true);
                     },
-                    (id) => {
-                        setDeleteId(id);
+                    (product) => {
+                        setDeleteId(product.id);
                         setDeleteOpen(true);
                     }
                 ),
@@ -149,16 +150,11 @@ export default function ProductTable() {
                 product={editProduct}
             />
 
-            <DeleteProductDialog
-                open={deleteOpen}
-                onOpenChange={setDeleteOpen}
-                onDelete={() => {
-                    console.log("Deleting:", deleteId);
-
-
-                    setDeleteOpen(false);
-                }}
-            />
+          <DeleteProductDialog
+    open={deleteOpen}
+    onOpenChange={setDeleteOpen}
+    productId={deleteId}
+/>
         </div>
     );
 }

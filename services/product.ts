@@ -30,12 +30,15 @@ export const productApi = createApi({
                 body: formData
             })
         }),
-        deleteProduct: builder.mutation<ProductResponse, { id: UUID }>({
+
+        deleteProduct: builder.mutation<ProductResponse, { id: string}>({
             query: ({ id }) => ({
                 url: `/products/${id}`,
-                method: 'DELETE'
+                method: 'DELETE',
+
             })
         })
+
     })
 });
 

@@ -1,5 +1,6 @@
 "use client";
-
+import { useDeleteProductMutation } from "@/services/product";
+import type { UUID } from "node:crypto";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,17 +12,41 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
+
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onDelete: () => void;
+productId:string
 };
 
 export default function DeleteProductDialog({
   open,
   onOpenChange,
-  onDelete,
+  productId,
 }: Props) {
+  const [deleteProduct, { isLoading }] =
+    useDeleteProductMutation();
+
+  const handleDelete = async () => {
+    console.log("DELETE ID:", productId);
+
+    if (!productId) {
+      return;
+    }
+
+    try {
+      const result = await deleteProduct({
+        id: productId,
+      }).unwrap();
+
+      console.log("DELETE SUCCESS:", result);
+
+      onOpenChange(false);
+    } catch (error) {
+      console.error("DELETE ERROR:", error);
+    }
+  
+  }; 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
@@ -44,7 +69,8 @@ export default function DeleteProductDialog({
           </AlertDialogCancel>
 
           <AlertDialogAction
-            onClick={onDelete}
+             onClick={handleDelete}
+            disabled={isLoading}
             className="bg-red-600 hover:bg-red-700 focus:ring-red-600"
           >
             Delete Product

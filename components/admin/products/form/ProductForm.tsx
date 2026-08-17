@@ -57,6 +57,7 @@ export default function ProductForm({
         description: product.description,
         flavours: product.flavours ?? [],
         sizes: product.sizes ?? [],
+        
       });
     }
   }, [product, reset]);
@@ -77,7 +78,7 @@ export default function ProductForm({
           return (value as string[]).forEach((val) => productFormData.append(key, val));
         }
         else if (value !== (product as Record<string, typeof value>)[key]) {
-          console.log("Key:", key, "Value:", value, "type", typeof value, "Product Value:", product[key], "type", typeof product[key]);
+          console.log("Key:", key, "Value:", value, "type", typeof value, "Product Value:");
           return productFormData.append(key, value);
         }
       });

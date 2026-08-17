@@ -13,7 +13,7 @@ import Image from "next/image";
 export const columns = (
   onView: (id: string, category: string) => void,
   onEdit: (product: Product) => void,
-  onDelete: (id: string) => void
+  onDelete: (product: Product) => void
 ): ColumnDef<Product>[] => [
     {
       header: "Product",
@@ -80,7 +80,7 @@ export const columns = (
             size="icon"
             className=""
             onClick={() =>
-              onDelete(row.original.id)
+              onDelete(row.original)
             }
           >
             <Trash className="h-4 w-4" />
