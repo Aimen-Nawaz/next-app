@@ -1,16 +1,34 @@
 import { UUID } from "crypto"
 import { Interface } from "readline"
 
+export type WishList = {
+    id: UUID,
+    UserId: UUID,
+    productId: UUID,
+    product: {
+        id: UUID,
+        name: string,
+        image: string
+        price: string
+    }
+    createdAt: Date
+}
+
 export type User = {
     id: UUID,
     name: String,
     email: String,
+    wishList: WishList[]
 
 }
 
-export interface UserResponse {
+export interface UsersResponse {
     message: String,
     data: User[]
+}
+export interface UserResponse {
+    message: String,
+    data: User
 }
 
 export type Login = {
@@ -19,11 +37,11 @@ export type Login = {
 }
 
 export type VerifyEmail = {
-  email: string;
+    email: string;
 };
 export type ResetPassword = {
-  email: string;
-  password: string;
+    email: string;
+    password: string;
 };
 
 export type Register = {

@@ -28,7 +28,7 @@ import { useWishlist } from "@/app/context/WishlistContext";
 
 export default function NavbarWishlist() {
   const { wishlistItems, removeFromWishlist } = useWishlist();
-
+  
   const wishlistCount = wishlistItems.length;
 
   return (

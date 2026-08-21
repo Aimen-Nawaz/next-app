@@ -1,10 +1,15 @@
 "use client";
 
-import { spec } from "node:test/reporters";
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext,  ReactNode } from "react";
+import {
+  useGetWishlistQuery,
+  useCreateWishlistMutation,
+  useDeleteWishlistMutation,
+} from "@/services/whishlist";
 
 export interface WishlistItem {
   id: string;
+  productId: string;
   name: string;
   price: number;
   image: string;
@@ -13,35 +18,44 @@ export interface WishlistItem {
 interface WishlistContextType {
   wishlistItems: WishlistItem[];
   totalWishlistItems: number;
-  addToWishlist: (item: WishlistItem) => void;
-  removeFromWishlist: (id: string) => void;
-  isInWishlist: (id: string) => boolean;
+  addToWishlist: (item: WishlistItem) =>void;
+  removeFromWishlist: (productId: string) => void;
+  isInWishlist: (productId: string) => boolean;
 }
 
 const WishlistContext = createContext<WishlistContextType | undefined>(undefined);
 
 export function WishlistProvider({ children }: { children: ReactNode }) {
-  const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>([]);
+ const { data: wishlist = [], error } = useGetWishlistQuery();
 
-  const addToWishlist = (item: WishlistItem) => {
-    setWishlistItems((prev) => {
-      const exists = prev.find((p) => p.id === item.id);
+const [createWishlist] = useCreateWishlistMutation();
+const [deleteWishlist] = useDeleteWishlistMutation();
 
-      if (exists) {
-        return prev.filter((p) => p.id !== item.id);
-      }
+const wishlistItems: WishlistItem[] = wishlist.map((item) => ({
+  id: item.id,
+  productId: item.productId,
+  name: item.product?.name ?? "",
+  price: Number(item.product?.price ?? 0),
+  image: item.product?.image ?? "",
+}));
 
-      return [...prev, item];
-    });
-  };
 
-  const removeFromWishlist = (id: string) => {
-    setWishlistItems((prev) => prev.filter((item) => item.id !== id));
-  };
 
-  const isInWishlist = (id: string) =>
-    wishlistItems.some((item) => item.id === id);
+const addToWishlist = async (item: WishlistItem) => {
+  await createWishlist({
+    productId: item.productId,
+  }).unwrap();
+};
 
+const removeFromWishlist = async (productId: string) => {
+  await deleteWishlist(productId).unwrap();
+};
+
+
+const isInWishlist = (productId: string) =>
+  wishlistItems.some(
+    (item) => item.productId === productId
+  );
   return (
     <WishlistContext.Provider
       value={{

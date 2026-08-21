@@ -6,6 +6,8 @@ import ProductCard from '@/components/common/ProductCard'
 
 import ProductCardSkeleton from '@/components/common/ProductCardSkeleton'
 import { useGetAllProductsByCategoryQuery } from '@/services/product'
+import { WishList } from '@/types/user'
+import { useMeQuery } from '@/services/auth'
 
 
 interface Props {
@@ -14,6 +16,10 @@ interface Props {
 }
 
 const ProductList = ({ category, title }: Props) => {
+    const { data } = useMeQuery()
+
+    const userInfo = data?.data
+    const wishList: WishList[] = userInfo?.wishList ?? []
 
     const queryArgs = useMemo(() => ({
         query: {
@@ -48,12 +54,14 @@ const ProductList = ({ category, title }: Props) => {
         />
     )
 
-
+    console.log("wishListt", wishList)
 
     return products && products.map((product) => (
         <ProductCard
             key={product.id}
             product={product}
+            // liked={wishList.some(w => w.productId === product.id)}
+            wishItem={wishList.find(w => w.productId === product.id)}
         />
     ))
 
